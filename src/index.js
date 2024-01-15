@@ -1,27 +1,12 @@
-import "./style.css";
-
-const taskList = [];
-class Task {
-  constructor(name, description, dueDate, priority) {
-    this.name = name;
-    this.description = description;
-    this.dueDate = dueDate;
-    this.priority = priority;
-    this.isDone = false;
-  }
-  toggleDone() {
-    this.isDone = !this.isDone;
-  }
-  static addTask() {
-    taskList.push(this);
-  }
-  removeTask() {
-    taskList.splice(taskList.indexOf(this), 1);
-  }
-  editTask() {}
-}
+import { Task } from "./task.js";
+import { todoList } from "./todoList.js";
+import { displayTaskList } from "./dom.js";
 
 let task1 = new Task("Task 1", "Description 1", "2022-01-01", "high");
+let task2 = new Task("Task 2", "Description 2", "2022-01-02", "low");
 console.log(task1);
-Task.addTask(task1);
-console.log(taskList);
+todoList.addTask(task1);
+todoList.addTask(task2);
+console.log(todoList.getTaskList());
+
+displayTaskList(todoList.getTaskList());
