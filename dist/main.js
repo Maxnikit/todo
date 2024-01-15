@@ -1,0 +1,1 @@
+(()=>{const s=[];class i{constructor(s,i,t,e){this.name=s,this.description=i,this.dueDate=t,this.priority=e,this.isDone=!1}toggleDone(){this.isDone=!this.isDone}static addTask(){s.push(this)}removeTask(){s.splice(s.indexOf(this),1)}editTask(){}}let t=new i("Task 1","Description 1","2022-01-01","high");console.log(t),i.addTask(t),console.log(s)})();
