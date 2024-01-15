@@ -1,3 +1,5 @@
+import "./style.css";
+
 const taskList = [];
 class Task {
   constructor(name, description, dueDate, priority) {
