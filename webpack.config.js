@@ -1,6 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
+const HtmlDisablePlugin = require("html-webpack-disable-plugin");
 module.exports = {
   mode: "development",
   watch: true,
@@ -10,13 +10,13 @@ module.exports = {
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
-    clean: true,
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: "To Do",
-      cache: false,
-    }),
+    // new HtmlWebpackPlugin({
+    //   title: "To Do",
+    //   cache: false,
+    // }),
+    // new HtmlDisablePlugin(),
   ],
   module: {
     rules: [
