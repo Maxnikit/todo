@@ -11,10 +11,27 @@
     />
   </head>
   <body>
+    <!-- Modal for adding new project -->
+    <div id="newProjectModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="newProjectForm">
+          <label for="projectName">Project Name:</label>
+          <input type="text" id="projectName" name="projectName" required />
+          <input
+            type="color"
+            id="projectColor"
+            name="projectColor"
+            placeholder="blue"
+          />
+          <input id="confirmBtn" type="submit" value="Add Project" />
+        </form>
+      </div>
+    </div>
+
     <header class="header">
       <h1>To Do</h1>
       <div class="header_buttons">
-        <button id="addProject">Add Project</button>
         <button id="addTask">Add Task</button>
       </div>
     </header>

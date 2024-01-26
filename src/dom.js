@@ -72,44 +72,39 @@ function addCollapsibility() {
     });
   }
 }
-function headerButtons() {
-  const addProjectButton = document.getElementById("addProject");
-  const addTaskButton = document.getElementById("addTask");
+function addProject() {
+  var modal = document.getElementById("newProjectModal");
+  var btn = document.querySelector(".addProjectIcon");
+  var span = document.getElementsByClassName("close")[0];
+  const confirmBtn = document.getElementById("confirmBtn");
+  btn.onclick = function () {
+    modal.style.display = "block";
+    alert("Project Added");
+  };
 
-  addProjectButton.addEventListener("click", () => {
-    const modal = document.getElementById("modalForm");
-    const nameInput = document.getElementById("projectName");
-    const colorInput = document.getElementById("projectColor");
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function () {
+    modal.style.display = "none";
+  };
 
-    addProjectButton.addEventListener("click", () => {
-      modal.style.display = "block";
-    });
-
-    const submitButton = document.getElementById("submitProject");
-    submitButton.addEventListener("click", () => {
-      const projectName = nameInput.value;
-      const projectColor = colorInput.value;
-      if (projectName && projectColor) {
-        const newProject = new project(projectName, projectColor);
-        modal.style.display = "none";
-        nameInput.value = "";
-        colorInput.value = "";
-        // You may need to implement a method to update the UI with the new project
-        // updateUIWithNewProject(newProject);
-      } else {
-        // Handle the case where the name or color is not provided
-        // showErrorMessage("Please provide both name and color for the project.");
-      }
-    });
-
-    const closeModalButton = document.getElementById("closeModal");
-    closeModalButton.addEventListener("click", () => {
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function (event) {
+    if (event.target == modal) {
       modal.style.display = "none";
-    });
-  });
+    }
+  };
+  confirmBtn.onclick = function () {
+    event.preventDefault();
+    const projectName = document.getElementById("projectName").value;
+    const projectColor = document.getElementById("projectColor").value;
+    const newProject = new project(projectName, projectColor);
+    displayProjectList(project.getProjectList());
+
+    modal.style.display = "none";
+  };
 }
 
 export function addEventListeners() {
   addCollapsibility();
-  headerButtons();
+  addProject();
 }
