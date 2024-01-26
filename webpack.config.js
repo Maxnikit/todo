@@ -1,6 +1,6 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const HtmlDisablePlugin = require("html-webpack-disable-plugin");
+// const HtmlWebpackPlugin = require("html-webpack-plugin");
+// const HtmlDisablePlugin = require("html-webpack-disable-plugin");
 module.exports = {
   mode: "development",
   watch: true,

@@ -2,19 +2,24 @@ import { todoList } from "./todoList.js";
 
 export class project {
   static projectList = [];
-  constructor(name, tasks, color) {
+  constructor(name, color) {
     this.name = name;
-    this.tasks = tasks;
     this.color = color;
-  }
-  static addProject(name, tasks, color) {
-    const newProject = new project(name, tasks, color);
-    this.projectList.push(newProject);
+    this.tasks = [];
+    project.projectList.push(this);
   }
 
   static getProjectList() {
     return this.projectList;
   }
 
-  static;
+  static removeProject(project) {
+    const index = this.projectList.indexOf(project);
+    this.projectList.splice(index, 1);
+  }
+
+  static addTask(project, task) {
+    const index = this.projectList.indexOf(project);
+    this.projectList[index].tasks.push(task);
+  }
 }
