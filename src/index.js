@@ -3,7 +3,11 @@
 // TODO add remaining time on task
 import { Task } from "./task.js";
 import { todoList } from "./todoList.js";
-import { displayProjectList, addCollapsibility } from "./dom.js";
+import {
+  displayProjectList,
+  addCollapsibility,
+  addEventListeners,
+} from "./dom.js";
 import { project } from "./project.js";
 
 let task1 = new Task("Exam", "Prepare for exams", "2022-01-01", "high");
@@ -22,4 +26,4 @@ project.addTask(otherProject, task4);
 console.log(project.getProjectList());
 displayProjectList(project.getProjectList());
 
-addCollapsibility();
+addEventListeners();
