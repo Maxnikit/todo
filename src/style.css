@@ -1,15 +1,39 @@
+:root {
+  --high-icon: url(./assets/icons8-priority-48.png);
+  --medium-icon: url(./assets/icons8-medium-priority-48.png);
+  --low-icon: url(./assets/icons8-low-priority-48.png);
+  --main: #706455;
+  --background: #eec18c;
+}
+body {
+  background-color: var(--background);
+}
+header {
+  background-color: var(--main);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  color: white;
+  height: 100px;
+}
 h1 {
-  color: red;
+}
+h2 {
+  margin: 0;
+  padding: 10px;
 }
 #projectList {
   display: flex;
-  border: black 1px solid;
-  gap: 20px;
+
+  gap: 30px;
+  margin: 20px;
 }
 #projectList > .project-item {
   border: black 1px solid;
   height: 300px;
   width: 300px;
+  background-color: #d9d9d9;
 
   display: flex;
   flex-direction: column;
@@ -20,7 +44,6 @@ h1 {
 }
 #projectList > .project-item > .task-item {
   border: blue 1px solid;
-  padding: 10px;
 }
 .task-item > button {
   background-color: #eee;
@@ -32,9 +55,12 @@ h1 {
   text-align: left;
   outline: none;
   font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .active,
-.task-item:hover {
+.task-item > button:hover {
   background-color: #ccc;
 }
 .task-info {
@@ -43,4 +69,22 @@ h1 {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
+}
+.priority-icon.high {
+  background-image: var(--high-icon);
+}
+
+.priority-icon.medium {
+  background-image: var(--medium-icon);
+}
+
+.priority-icon.low {
+  background-image: var(--low-icon);
+}
+
+.priority-icon {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  background-size: 48px 48px;
 }

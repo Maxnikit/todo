@@ -1,5 +1,4 @@
 import { todoList } from "./todoList.js";
-
 export class project {
   static projectList = [];
   constructor(name, color) {
