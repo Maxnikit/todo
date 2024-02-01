@@ -1,7 +1,10 @@
 import "normalize.css";
 import "./style.css";
-import { project } from "./project.js";
-export function displayProjectList(projectList) {
+import { Project } from "./project.js";
+
+export function displayProjectList() {
+  const projectList = Project.getProjectList();
+
   const projectListContainer = document.querySelector("#projectList");
   projectListContainer.innerHTML = "";
 
@@ -43,6 +46,9 @@ export function displayProjectList(projectList) {
 
     projectListContainer.appendChild(projectItem);
   });
+  addAddProjectCard(projectListContainer);
+}
+function addAddProjectCard(projectListContainer) {
   const addProjectCard = document.createElement("div");
   addProjectCard.classList.add("add-project");
   const addProjectButton = document.createElement("button");
@@ -51,9 +57,24 @@ export function displayProjectList(projectList) {
   icon.classList.add("addProjectIcon");
   addProjectButton.appendChild(icon);
 
+  icon.addEventListener("click", () => {
+    let overlay = document.createElement("overlay");
+    document.body.appendChild(overlay);
+    overlay.classList.add("overlay");
+    overlay.style.display = "block";
+    dialog.showModal();
+  });
   addProjectCard.appendChild(addProjectButton);
 
   projectListContainer.appendChild(addProjectCard);
+}
+function closeDialog() {
+  dialog.close();
+
+  let overlay = document.querySelector("overlay");
+  document.getElementById("name").value = "";
+  document.getElementById("color").value = "";
+  document.body.removeChild(overlay);
 }
 
 function addCollapsibility() {
@@ -72,39 +93,35 @@ function addCollapsibility() {
     });
   }
 }
-function addProject() {
-  var modal = document.getElementById("newProjectModal");
-  var btn = document.querySelector(".addProjectIcon");
-  var span = document.getElementsByClassName("close")[0];
-  const confirmBtn = document.getElementById("confirmBtn");
-  btn.onclick = function () {
-    modal.style.display = "block";
-    alert("Project Added");
-  };
 
-  // When the user clicks on <span> (x), close the modal
-  span.onclick = function () {
-    modal.style.display = "none";
-  };
-
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  };
-  confirmBtn.onclick = function () {
-    event.preventDefault();
-    const projectName = document.getElementById("projectName").value;
-    const projectColor = document.getElementById("projectColor").value;
-    const newProject = new project(projectName, projectColor);
-    displayProjectList(project.getProjectList());
-
-    modal.style.display = "none";
-  };
+function createProject() {
+  const name = document.getElementById("name").value;
+  const color = document.getElementById("color").value;
+  const newProject = new Project(name, color);
+  console.log(newProject);
+  Project.addProject(newProject);
 }
-
 export function addEventListeners() {
   addCollapsibility();
-  addProject();
+  confirmBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    submitForm();
+  });
+
+  cancelBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    closeDialog();
+  });
+
+  dialog.addEventListener("keydown", (event) =>
+    event.key === "Enter" ? submitForm() : null
+  );
+}
+
+function submitForm() {
+  createProject();
+
+  closeDialog();
+
+  displayProjectList();
 }

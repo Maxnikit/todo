@@ -1,17 +1,20 @@
 import { todoList } from "./todoList.js";
-export class project {
+export class Project {
   static projectList = [];
   constructor(name, color) {
     this.name = name;
     this.color = color;
     this.tasks = [];
-    project.projectList.push(this);
   }
 
   static getProjectList() {
     return this.projectList;
   }
-
+  static addProject(project) {
+    this.projectList.push(project);
+    console.log("added project: " + project.name);
+    console.log(this.projectList);
+  }
   static removeProject(project) {
     const index = this.projectList.indexOf(project);
     this.projectList.splice(index, 1);

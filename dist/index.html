@@ -11,24 +11,41 @@
     />
   </head>
   <body>
-    <!-- Modal for adding new project -->
-    <div id="newProjectModal" class="modal">
-      <div class="modal-content">
+    <dialog id="dialog">
+      <div class="dialog-title">
+        <span>Creating new project</span>
         <span class="close">&times;</span>
-        <form id="newProjectForm">
-          <label for="projectName">Project Name:</label>
-          <input type="text" id="projectName" name="projectName" required />
-          <input
-            type="color"
-            id="projectColor"
-            name="projectColor"
-            placeholder="blue"
-          />
-          <input id="confirmBtn" type="submit" value="Add Project" />
-        </form>
       </div>
-    </div>
 
+      <form>
+        <p>
+          <label for="title">Name: </label
+          ><input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Study"
+            required
+          />
+        </p>
+        <p>
+          <label>Color: </label
+          ><input type="color" name="color" id="color" required />
+        </p>
+
+        <div>
+          <button id="cancelBtn" class="button" value="cancel">Cancel</button>
+          <button
+            id="confirmBtn"
+            class="button"
+            value="default"
+            formmethod="dialog"
+          >
+            Confirm
+          </button>
+        </div>
+      </form>
+    </dialog>
     <header class="header">
       <h1>To Do</h1>
       <div class="header_buttons">
