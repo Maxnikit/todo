@@ -11,47 +11,14 @@
     />
   </head>
   <body>
-    <dialog id="dialog">
-      <div class="dialog-title">
-        <span>Creating new project</span>
-        <span class="close">&times;</span>
-      </div>
-
-      <form>
-        <p>
-          <label for="title">Name: </label
-          ><input
-            type="text"
-            name="name"
-            id="name"
-            placeholder="Study"
-            required
-          />
-        </p>
-        <p>
-          <label>Color: </label
-          ><input type="color" name="color" id="color" required />
-        </p>
-
-        <div>
-          <button id="cancelBtn" class="button" value="cancel">Cancel</button>
-          <button
-            id="confirmBtn"
-            class="button"
-            value="default"
-            formmethod="dialog"
-          >
-            Confirm
-          </button>
-        </div>
-      </form>
-    </dialog>
     <header class="header">
       <h1>To Do</h1>
       <div class="header_buttons">
         <button id="addTask">Add Task</button>
       </div>
     </header>
-    <div id="projectList"></div>
+    <sidebar id="sidebar">sidebar</sidebar>
+    <main id="main">main</main>
+    <footer id="footer">footer</footer>
   </body>
 </html>
