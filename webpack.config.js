@@ -8,8 +8,12 @@ module.exports = {
 
   entry: "./src/index.js",
   output: {
-    filename: "bundle.js",
+    filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
+  },
+  devtool: "inline-source-map",
+  devServer: {
+    static: "./dist",
   },
   plugins: [
     // new HtmlWebpackPlugin({
@@ -25,5 +29,8 @@ module.exports = {
         use: ["style-loader", "css-loader"],
       },
     ],
+  },
+  optimization: {
+    runtimeChunk: "single",
   },
 };

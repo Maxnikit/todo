@@ -1,16 +1,32 @@
 export class todoList {
-  static taskList = [];
-
-  static addTask(task) {
-    this.taskList.push(task);
+  constructor() {
+    this.projects = [];
+    this.projects.push(new Project("Inbox"));
+    this.projects.push(new Project("Today"));
+    this.projects.push(new Project("Upcoming"));
   }
 
-  static removeTask(task) {
-    const index = this.taskList.indexOf(task);
-    this.taskList.splice(index, 1);
+  getProjects() {
+    return this.projects;
   }
 
-  static getTaskList() {
-    return this.taskList;
+  getProject(name) {
+    return this.projects.find((project) => project.name === name);
+  }
+  contains(name) {
+    return this.projects.some((project) => project.name === name);
+  }
+
+  addProject(project) {
+    if (!this.contains(project.name)) {
+      this.projects.push(project);
+    }
+  }
+
+  deleteProject(project) {
+    const index = this.projects.indexOf(project);
+    if (index !== -1) {
+      this.projects.splice(index, 1);
+    }
   }
 }
