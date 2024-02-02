@@ -1,3 +1,4 @@
+import { Storage } from "./storage.js";
 export class todoList {
   constructor() {
     this.projects = [];
@@ -17,10 +18,13 @@ export class todoList {
     return this.projects.some((project) => project.name === name);
   }
 
-  addProject(project) {
-    if (!this.contains(project.name)) {
-      this.projects.push(project);
+  addProject(newProject) {
+    if (this.contains(newProject.name)) {
+      throw new Error(
+        `A project with the name ${newProject.name} already exists.`
+      );
     }
+    this.projects.push(newProject);
   }
 
   deleteProject(project) {

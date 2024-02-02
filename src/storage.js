@@ -1,2 +1,33 @@
+import { TodoList } from "./todoList.js";
+
 export default class Storage {
-    static addProject(project)}
+  static saveTodoList(data) {
+    localStorage.setItem("todoList", JSON.stringify(data));
+  }
+
+  static getTodoList() {
+    const todoList = Object.assign(
+      new todoList(),
+      JSON.parse(localStorage.getItem("todoList"))
+    );
+
+    todoList.setProjects(
+      todoList
+        .getProjects()
+        .map((project) => Object.assign(new Project(), project))
+    );
+
+    todoList.getProjects.forEach((project) => {
+      project.setTasks(
+        project.getTasks().map((task) => Object.assign(new Task(), task))
+      );
+    });
+    return todoList;
+  }
+
+  static addProject(project) {
+    const todoList = Storage.getTodoList();
+    todoList.addProject(project);
+    Storage.saveTodoList(todoList);
+  }
+}
