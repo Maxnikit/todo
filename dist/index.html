@@ -5,10 +5,11 @@
     <title>To Do</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script defer src="bundle.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+
+    <script
+      src="https://kit.fontawesome.com/190c076eca.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <header class="header">
@@ -19,15 +20,33 @@
     </header>
     <sidebar id="sidebar"
       ><div id="task_type_list">
-        <div id="inbox" class="sidebar_item">Inbox</div>
-        <div id="today" class="sidebar_item">Today</div>
-        <div id="upcoming" class="sidebar_item">Upcoming</div>
-        <div id="all" class="sidebar_item">All</div>
+        <div id="inbox" class="project">
+          <button><i class="fa fa-inbox"></i>Inbox</button>
+        </div>
+        <div id="today" class="project">
+          <button><i class="fa fa-calendar-day"></i>Today</button>
+        </div>
+        <div id="upcoming" class="project">
+          <button><i class="fa fa-calendar-week"></i>Upcoming</button>
+        </div>
+        <div id="all" class="project">
+          <button><i class="fa fa-check"></i>Done</button>
+        </div>
       </div>
       <div id="projectList">
         <h2>Projects</h2>
       </div>
+
+      <button id="addProject">Add Project</button>
+      <div class="addProjectPopup hide">
+        <input type="text" class="inputAddProject" placeholder="Project Name" />
+        <div class="addProjectPopupButtons">
+          <button class="confirmProjectPopupButton">Add</button>
+          <button class="cancelProjectPopupButton">Cancel</button>
+        </div>
+      </div>
     </sidebar>
+
     <main id="main">main</main>
     <footer id="footer">footer</footer>
   </body>

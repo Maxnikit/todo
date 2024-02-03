@@ -14,11 +14,35 @@ body {
   margin: 0;
   height: 100%;
 }
+
 body {
   background-color: var(--background);
   display: grid;
   grid-template-rows: auto 1fr auto;
   grid-template-columns: 20% auto;
+}
+button,
+input {
+  border: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+}
+button {
+  width: 100%;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+}
+i {
+  margin-right: 10px;
 }
 header {
   grid-row: 1 / 2;
@@ -35,6 +59,7 @@ sidebar {
   grid-row: 2 / 3;
   grid-column: 1 / 2;
   border: 1px solid black;
+  padding: 20px;
 }
 main {
   grid-row: 2 / 3;
@@ -98,4 +123,26 @@ h2 {
   width: 48px;
   height: 48px;
   background-size: 48px 48px;
+}
+
+.project > button {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: start;
+
+  background-color: #eee;
+}
+
+.project > button:hover {
+  background-color: #ccc;
+}
+.hide {
+  display: none;
+}
+
+.inputAddProject {
+  box-sizing: border-box; /* Include padding and border in the element's width and height */
 }

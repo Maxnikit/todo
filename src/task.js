@@ -1,4 +1,4 @@
-export class Task {
+export default class Task {
   constructor(
     name,
     description = "No description",

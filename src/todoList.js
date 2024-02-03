@@ -1,5 +1,6 @@
-import { Storage } from "./storage.js";
-export class todoList {
+import Storage from "./storage.js";
+import Project from "./project.js";
+export default class TodoList {
   constructor() {
     this.projects = [];
     this.projects.push(new Project("Inbox"));
@@ -32,5 +33,9 @@ export class todoList {
     if (index !== -1) {
       this.projects.splice(index, 1);
     }
+  }
+
+  setProjects(projects) {
+    this.projects = projects;
   }
 }
