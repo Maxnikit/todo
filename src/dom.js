@@ -22,7 +22,7 @@ export default class Dom {
   }
   static createProject(name) {
     const userProjects = document.getElementById("projectList");
-    userProjects.innerHTML += `<div class="project custom" ><button><i class="fa fa-folder-plus"></i> ${name}</button></div>`;
+    userProjects.innerHTML += `<div class="custom" ><button class="project"><i class="fa fa-folder-plus"></i> ${name}</button></div>`;
   }
 
   static initAddProjectButton() {
@@ -33,5 +33,9 @@ export default class Dom {
       addProjectButton.classList.toggle("hide");
     });
     console.log("init complete");
+  }
+
+  static initSelectProjectButtons() {
+    const selectProjectButtons = document.getElementsByClassName("project"););
   }
 }
