@@ -55,7 +55,14 @@
       <div id="taskContainer"></div>
       <button id="addTask">Add Task</button>
       <div class="addTaskPopup hide">
-        <input type="text" class="inputAddTask" placeholder="Task Name" />
+        <input
+          type="text"
+          class="inputAddTask"
+          placeholder="Task Name"
+          required
+          minlength="1"
+          maxlength="15"
+        />
         <div class="addTaskPopupButtons">
           <button class="confirmTaskPopupButton">Add</button>
           <button class="cancelTaskPopupButton">Cancel</button>

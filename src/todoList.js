@@ -43,11 +43,9 @@ export default class TodoList {
     const index = this.projects.findIndex(
       (project) => project.name === updatedProject.name
     );
-    console.log(this.projects);
-    console.log(index);
+
     if (index !== -1) {
       this.projects[index] = updatedProject;
-      console.log(updatedProject);
     }
   }
 }

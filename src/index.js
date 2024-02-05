@@ -23,11 +23,9 @@ Storage.addProject(new Project("Study"));
 // Project.addTask(workProject, task2);
 // Project.addTask(studyProject, task3);
 // Project.addTask(otherProject, task4);
-console.log(Storage.getTodoList());
 Dom.loadPage();
 const Inbox = Storage.getTodoList().getProject("Inbox");
 const Upcoming = Storage.getTodoList().getProject("Upcoming");
-console.log(Upcoming);
 Upcoming.addTask(task1);
 
 Upcoming.addTask(task2);
