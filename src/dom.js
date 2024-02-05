@@ -19,6 +19,7 @@ export default class Dom {
           Dom.createProject(project.name);
       });
     Dom.initAddProjectButton();
+    Dom.initSelectProjectButtons();
   }
   static createProject(name) {
     const userProjects = document.getElementById("projectList");
@@ -36,6 +37,26 @@ export default class Dom {
   }
 
   static initSelectProjectButtons() {
-    const selectProjectButtons = document.getElementsByClassName("project"););
+    const selectProjectButtons = document.getElementsByClassName("project");
+    const taskContainer = document.getElementById("taskContainer");
+    Array.from(selectProjectButtons).forEach((button) => {
+      button.addEventListener("click", () => {
+        console.log("boop");
+        const projectName = button.textContent.trim();
+        const todoList = Storage.getTodoList();
+        const project = todoList
+          .getProjects()
+          .find((p) => p.name === projectName);
+        if (project) {
+          taskContainer.innerHTML = ""; // Clear the container before adding tasks
+          project.getTasks().forEach((task) => {
+            const taskElement = document.createElement("div");
+            taskElement.className = "task";
+            taskElement.textContent = task.description; // Assuming 'description' is a property of Task
+            taskContainer.appendChild(taskElement);
+          });
+        }
+      });
+    });
   }
 }

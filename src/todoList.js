@@ -38,4 +38,16 @@ export default class TodoList {
   setProjects(projects) {
     this.projects = projects;
   }
+
+  updateProject(updatedProject) {
+    const index = this.projects.findIndex(
+      (project) => project.name === updatedProject.name
+    );
+    console.log(this.projects);
+    console.log(index);
+    if (index !== -1) {
+      this.projects[index] = updatedProject;
+      console.log(updatedProject);
+    }
+  }
 }

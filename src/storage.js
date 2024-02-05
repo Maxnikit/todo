@@ -1,5 +1,6 @@
 import TodoList from "./todoList.js";
 import Project from "./project.js";
+import Task from "./task.js";
 export default class Storage {
   static saveTodoList(data) {
     localStorage.setItem("todoList", JSON.stringify(data));
