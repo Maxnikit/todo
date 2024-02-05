@@ -81,6 +81,9 @@ h2 {
   margin: 0;
   padding: 10px;
 }
+.task {
+  border: 1px solid black;
+}
 .task-item > button {
   background-color: #eee;
   color: #444;

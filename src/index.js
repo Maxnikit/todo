@@ -32,10 +32,6 @@ Upcoming.addTask(task1);
 
 Upcoming.addTask(task2);
 Upcoming.addTask(task3);
-const addTask = document.getElementById("addTask");
-addTask.addEventListener("click", () => {
-  console.log(Storage.getTodoList());
-});
 
 const removeTask = document.getElementById("removeTask");
 removeTask.addEventListener("click", () => {

@@ -6,6 +6,7 @@ import Storage from "./storage.js";
 export default class Dom {
   static loadPage() {
     Dom.loadProjects();
+    Dom.initAddTaskButton();
   }
   static loadProjects() {
     Storage.getTodoList()
@@ -35,7 +36,16 @@ export default class Dom {
     });
     console.log("init complete");
   }
-
+  static initAddTaskButton() {
+    const addTaskButton = document.getElementById("addTask");
+    console.log(addTaskButton);
+    addTaskButton.addEventListener("click", () => {
+      console.log("boop");
+      const addTaskPopup = document.querySelector(".addTaskPopup");
+      addTaskPopup.classList.toggle("hide");
+      addTaskButton.classList.toggle("hide");
+    });
+  }
   static initSelectProjectButtons() {
     const selectProjectButtons = document.getElementsByClassName("project");
     const taskContainer = document.getElementById("taskContainer");
@@ -52,7 +62,7 @@ export default class Dom {
           project.getTasks().forEach((task) => {
             const taskElement = document.createElement("div");
             taskElement.className = "task";
-            taskElement.textContent = task.description; // Assuming 'description' is a property of Task
+            taskElement.textContent = task.name; // Assuming 'description' is a property of Task
             taskContainer.appendChild(taskElement);
           });
         }

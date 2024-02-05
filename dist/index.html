@@ -15,7 +15,6 @@
     <header class="header">
       <h1>To Do</h1>
       <div class="header_buttons">
-        <button id="addTask">Add Task</button>
         <button id="removeTask">Remove Task</button>
       </div>
     </header>
@@ -54,6 +53,14 @@
 
     <main id="main">
       <div id="taskContainer"></div>
+      <button id="addTask">Add Task</button>
+      <div class="addTaskPopup hide">
+        <input type="text" class="inputAddTask" placeholder="Task Name" />
+        <div class="addTaskPopupButtons">
+          <button class="confirmTaskPopupButton">Add</button>
+          <button class="cancelTaskPopupButton">Cancel</button>
+        </div>
+      </div>
     </main>
     <footer id="footer">footer</footer>
   </body>
