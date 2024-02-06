@@ -6,6 +6,7 @@ export default class TodoList {
     this.projects.push(new Project("Inbox"));
     this.projects.push(new Project("Today"));
     this.projects.push(new Project("Upcoming"));
+    this.projects.push(new Project("Done"));
   }
 
   getProjects() {
@@ -13,6 +14,7 @@ export default class TodoList {
   }
 
   getProject(name) {
+    console.log(name);
     return this.projects.find((project) => project.name === name);
   }
   contains(name) {
@@ -26,6 +28,10 @@ export default class TodoList {
       );
     }
     this.projects.push(newProject);
+    console.log(this.projects);
+    const todoList = Storage.getTodoList();
+
+    Storage.saveTodoList(todoList);
   }
 
   deleteProject(project) {
