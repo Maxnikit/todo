@@ -10,14 +10,14 @@ export default class Project {
   }
   addTask(task) {
     this.tasks.push(task);
-    const todoList = Storage.getTodoList();
+    const todoList = Storage.getAndRefreshTodoList();
     todoList.updateProject(this);
     Storage.saveTodoList(todoList);
   }
 
   removeTask(task) {
     this.tasks = this.tasks.filter((t) => t !== task);
-    const todoList = Storage.getTodoList();
+    const todoList = Storage.getAndRefreshTodoList();
     todoList.updateProject(this);
     Storage.saveTodoList(todoList);
   }

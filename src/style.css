@@ -128,7 +128,7 @@ h2 {
   background-size: 48px 48px;
 }
 
-.project > button {
+.project {
   width: 100%;
 
   display: flex;
@@ -138,7 +138,9 @@ h2 {
 
   background-color: #eee;
 }
-
+.project > i:nth-child(2) {
+  margin-left: auto;
+}
 .project > button:hover {
   background-color: #ccc;
 }

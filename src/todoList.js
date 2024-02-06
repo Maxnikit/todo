@@ -14,7 +14,6 @@ export default class TodoList {
   }
 
   getProject(name) {
-    console.log(name);
     return this.projects.find((project) => project.name === name);
   }
   contains(name) {
@@ -23,22 +22,21 @@ export default class TodoList {
 
   addProject(newProject) {
     if (this.contains(newProject.name)) {
-      throw new Error(
-        `A project with the name ${newProject.name} already exists.`
-      );
+      alert(`A project with the name ${newProject.name} already exists.`);
+      return;
     }
     this.projects.push(newProject);
-    console.log(this.projects);
-    const todoList = Storage.getTodoList();
-
-    Storage.saveTodoList(todoList);
   }
 
-  deleteProject(project) {
-    const index = this.projects.indexOf(project);
+  deleteProject(projectToDelete) {
+    const index = this.projects.findIndex(
+      (project) => project.name === projectToDelete.name
+    );
+    console.log(index);
     if (index !== -1) {
       this.projects.splice(index, 1);
     }
+    console.log(this.projects);
   }
 
   setProjects(projects) {

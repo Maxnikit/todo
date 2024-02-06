@@ -6,7 +6,7 @@ export default class Storage {
     localStorage.setItem("todoList", JSON.stringify(data));
   }
 
-  static getTodoList() {
+  static getAndRefreshTodoList() {
     const todoList = Object.assign(
       new TodoList(),
       JSON.parse(localStorage.getItem("todoList"))
@@ -27,11 +27,20 @@ export default class Storage {
   }
 
   static addProject(project) {
-    const todoList = Storage.getTodoList();
+    console.log(project);
+    let todoList = Storage.getAndRefreshTodoList();
     todoList.addProject(project);
     Storage.saveTodoList(todoList);
+    Storage.getAndRefreshTodoList();
+    Storage.saveTodoList(Storage.getAndRefreshTodoList());
   }
-
+  static deleteProject(project) {
+    let todoList = Storage.getAndRefreshTodoList();
+    todoList.deleteProject(project);
+    Storage.saveTodoList(todoList);
+    Storage.getAndRefreshTodoList();
+    Storage.saveTodoList(Storage.getAndRefreshTodoList());
+  }
   static clearStorage() {
     localStorage.clear();
   }
