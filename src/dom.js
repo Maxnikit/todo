@@ -49,7 +49,21 @@ export default class Dom {
     project.getTasks().forEach((task) => {
       const taskElement = document.createElement("div");
       taskElement.className = "task";
-      taskElement.textContent = task.name; // Assuming 'description' is a property of Task
+
+      const radioBox = document.createElement("input");
+      const taskName = document.createElement("p");
+      const date = document.createElement("p");
+
+      radioBox.type = "radio";
+      taskName.textContent = task.name;
+      date.textContent = task.dueDate;
+
+      radioBox.classList.add("radioBox");
+      taskName.classList.add("taskName");
+      date.classList.add("date");
+      taskElement.appendChild(radioBox);
+      taskElement.appendChild(taskName);
+      taskElement.appendChild(date);
       taskContainer.appendChild(taskElement);
     });
   }
@@ -72,6 +86,7 @@ export default class Dom {
         addTaskPopup.classList.toggle("hide");
         addTaskButton.classList.toggle("hide");
         const taskName = document.querySelector(".inputAddTask").value;
+
         document.querySelector(".inputAddTask").value = "";
         const task = new Task(taskName);
         currentProject.addTask(task);

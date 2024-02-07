@@ -41,7 +41,8 @@ button {
   background-color: transparent;
 }
 
-input {
+.inputAddTask,
+.inputAddProject {
   width: 100%;
   padding: 10px;
   border-radius: 5px;
@@ -97,10 +98,19 @@ h2 {
 }
 .task {
   padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
 }
 .task:not(:last-child) {
   border-bottom: 1px solid #ccc;
   /* margin-bottom: 10px; */
+}
+.task > .radioBox {
+  margin-right: 10px;
+}
+.task > .taskName {
+  flex-grow: 1;
 }
 .task-item > button {
   color: #444;
