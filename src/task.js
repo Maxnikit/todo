@@ -24,4 +24,7 @@ export default class Task {
       isDone: this.isDone,
     };
   }
+  setDueDate(dueDate) {
+    this.dueDate = dueDate;
+  }
 }

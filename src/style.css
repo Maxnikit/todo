@@ -49,6 +49,9 @@ button {
   box-sizing: border-box;
   background-color: var(--secondary);
 }
+.calendar {
+  background-color: var(--secondary);
+}
 i {
   margin-right: 10px;
 }

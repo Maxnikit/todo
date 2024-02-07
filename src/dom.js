@@ -29,10 +29,7 @@ export default class Dom {
     Dom.initSelectProjectButtons();
     Dom.initDeleteProjectButtons();
   }
-  static createProject(name) {
-    const userProjects = document.getElementById("projectList");
-    userProjects.innerHTML += `<div class="custom" ><button class="project"><i class="fa fa-folder-plus"></i> ${name} <i class="fa fa-times deleteProject"></i></button></div>`;
-  }
+
   static showTasks(project) {
     const todoList = Storage.getAndRefreshTodoList();
     if (!todoList.getProject(project.name)) {
@@ -53,22 +50,26 @@ export default class Dom {
       const radioBox = document.createElement("input");
       const taskName = document.createElement("p");
       const date = document.createElement("p");
-
+      const calendar = document.createElement("input");
       radioBox.type = "radio";
       taskName.textContent = task.name;
       date.textContent = task.dueDate;
+      calendar.type = "date";
 
       radioBox.classList.add("radioBox");
       taskName.classList.add("taskName");
       date.classList.add("date");
+      calendar.classList.add("calendar");
 
       taskElement.appendChild(radioBox);
       taskElement.appendChild(taskName);
       taskElement.appendChild(date);
+      taskElement.appendChild(calendar);
 
       taskContainer.appendChild(taskElement);
       taskElement.innerHTML += `<i class="fa fa-times deleteTask"></i>`;
     });
+    Dom.initSelectDate();
     Dom.initDeleteTaskButtons();
   }
 
@@ -123,8 +124,23 @@ export default class Dom {
       });
     });
   }
-
+  static initSelectDate() {
+    const calendars = document.getElementsByClassName("calendar");
+    Array.from(calendars).forEach((calendar) => {
+      calendar.addEventListener("change", () => {
+        const selectedDate = calendar.value;
+        const taskName = calendar.parentElement.children[1].textContent;
+        const task = currentProject.getTask(taskName);
+        task.setDueDate(selectedDate);
+        Dom.showTasks(currentProject);
+      });
+    });
+  }
   // project section
+  static createProject(name) {
+    const userProjects = document.getElementById("projectList");
+    userProjects.innerHTML += `<div class="custom" ><button class="project"><i class="fa fa-folder-plus"></i> ${name} <i class="fa fa-times deleteProject"></i></button></div>`;
+  }
   static initSelectProjectButtons() {
     const todoList = Storage.getAndRefreshTodoList();
     const selectProjectButtons = document.getElementsByClassName("project");

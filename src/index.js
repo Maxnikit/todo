@@ -6,6 +6,8 @@ import TodoList from "./todoList.js";
 import Project from "./project.js";
 import Dom from "./dom.js";
 import Storage from "./storage.js";
+
+import dateTest from "./date.js";
 // Storage.clearStorage();
 Storage.getAndRefreshTodoList();
 let task1 = new Task("Exam", "Prepare for exams", "2022-01-01", "high");
@@ -30,3 +32,6 @@ const Upcoming = Storage.getAndRefreshTodoList().getProject("Upcoming");
 // Upcoming.addTask(task2);
 // Upcoming.addTask(task3);
 // TODO When deleting project it shows its tasks
+
+const testDates = document.querySelectorAll(".calendar");
+console.log(testDates);
