@@ -29,3 +29,4 @@ const Upcoming = Storage.getAndRefreshTodoList().getProject("Upcoming");
 
 // Upcoming.addTask(task2);
 // Upcoming.addTask(task3);
+// TODO When deleting project it shows its tasks

@@ -32,11 +32,10 @@ export default class TodoList {
     const index = this.projects.findIndex(
       (project) => project.name === projectToDelete.name
     );
-    console.log(index);
+
     if (index !== -1) {
       this.projects.splice(index, 1);
     }
-    console.log(this.projects);
   }
 
   setProjects(projects) {

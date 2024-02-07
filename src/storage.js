@@ -27,7 +27,6 @@ export default class Storage {
   }
 
   static addProject(project) {
-    console.log(project);
     let todoList = Storage.getAndRefreshTodoList();
     todoList.addProject(project);
     Storage.saveTodoList(todoList);

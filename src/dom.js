@@ -35,16 +35,16 @@ export default class Dom {
   }
   static showTasks(project) {
     const todoList = Storage.getAndRefreshTodoList();
-    if (!todoList.getProject.project) {
+    if (!todoList.getProject(project.name)) {
       return;
     }
 
-    if (typeof project !== "object" || project === null) {
-      project = todoList.getProject(project);
-    }
+    const taskHeader = document.getElementById("taskHeader");
     const taskContainer = document.getElementById("taskContainer");
 
     currentProject = project;
+
+    taskHeader.innerHTML = currentProject.name;
     taskContainer.innerHTML = ""; // Clear the container before adding tasks
     project.getTasks().forEach((task) => {
       const taskElement = document.createElement("div");
@@ -76,6 +76,7 @@ export default class Dom {
         const task = new Task(taskName);
         currentProject.addTask(task);
       }
+
       Dom.showTasks(currentProject);
     });
     cancelButton.addEventListener("click", () => {
@@ -83,7 +84,7 @@ export default class Dom {
       addTaskPopup.classList.toggle("hide");
       addTaskButton.classList.toggle("hide");
       const inputValue = document.querySelector(".inputAddTask").value;
-      console.log(inputValue);
+
       if (inputValue) {
         document.querySelector("inputAddTask").value = "";
       }
@@ -96,8 +97,8 @@ export default class Dom {
     Array.from(selectProjectButtons).forEach((button) => {
       button.addEventListener("click", () => {
         const projectName = button.textContent.trim();
-
-        this.showTasks(projectName);
+        const project = todoList.getProject(projectName);
+        this.showTasks(project);
       });
     });
   }
@@ -124,7 +125,7 @@ export default class Dom {
         const project = new Project(projectName);
         Storage.addProject(project);
       }
-      //TODO реализовать обновление проектов, переключение на новосозданный Dom.updateProjects();
+
       Dom.loadProjects();
     });
     cancelButton.addEventListener("click", () => {
@@ -133,7 +134,7 @@ export default class Dom {
       addProjectButton.classList.toggle("hide");
 
       const inputValue = document.querySelector(".inputAddProject").value;
-      console.log(inputValue);
+
       if (inputValue) {
         document.querySelector("inputAddProject").value = "";
       }
@@ -148,6 +149,12 @@ export default class Dom {
         const project = Storage.getAndRefreshTodoList().getProject(projectName);
         Storage.deleteProject(project);
         button.parentElement.remove();
+        console.log(project);
+        console.log(currentProject);
+        if (project.name === currentProject.name) {
+          currentProject = Storage.getAndRefreshTodoList().getProjects()[0];
+          this.showTasks(currentProject);
+        }
       });
     });
   }
