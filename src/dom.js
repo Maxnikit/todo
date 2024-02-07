@@ -43,7 +43,7 @@ export default class Dom {
     const taskContainer = document.getElementById("taskContainer");
 
     currentProject = project;
-
+    Dom.highlightCurrentProject();
     taskHeader.innerHTML = currentProject.name;
     taskContainer.innerHTML = ""; // Clear the container before adding tasks
     project.getTasks().forEach((task) => {
@@ -156,6 +156,17 @@ export default class Dom {
           this.showTasks(currentProject);
         }
       });
+    });
+  }
+
+  static highlightCurrentProject() {
+    const projectButtons = document.getElementsByClassName("project");
+    Array.from(projectButtons).forEach((button) => {
+      if (button.textContent.trim() === currentProject.name) {
+        button.classList.add("currentProject");
+      } else {
+        button.classList.remove("currentProject");
+      }
     });
   }
 }
