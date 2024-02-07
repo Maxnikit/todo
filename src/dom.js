@@ -61,11 +61,15 @@ export default class Dom {
       radioBox.classList.add("radioBox");
       taskName.classList.add("taskName");
       date.classList.add("date");
+
       taskElement.appendChild(radioBox);
       taskElement.appendChild(taskName);
       taskElement.appendChild(date);
+
       taskContainer.appendChild(taskElement);
+      taskElement.innerHTML += `<i class="fa fa-times deleteTask"></i>`;
     });
+    Dom.initDeleteTaskButtons();
   }
 
   static initAddTaskButton() {
@@ -105,6 +109,21 @@ export default class Dom {
       }
     });
   }
+  static initDeleteTaskButtons() {
+    const deleteTaskButtons = document.getElementsByClassName("deleteTask");
+    Array.from(deleteTaskButtons).forEach((button) => {
+      button.addEventListener("click", () => {
+        const taskName = button.parentElement.children[1]?.textContent;
+        const task = currentProject.getTask(taskName);
+        console.log(taskName);
+
+        console.log("boop");
+        currentProject.removeTask(task);
+        Dom.showTasks(currentProject);
+      });
+    });
+  }
+
   // project section
   static initSelectProjectButtons() {
     const todoList = Storage.getAndRefreshTodoList();
@@ -158,6 +177,7 @@ export default class Dom {
   static initDeleteProjectButtons() {
     const deleteProjectButtons =
       document.getElementsByClassName("deleteProject");
+    console.log(deleteProjectButtons);
     Array.from(deleteProjectButtons).forEach((button) => {
       button.addEventListener("click", () => {
         const projectName = button.parentElement.textContent.trim();

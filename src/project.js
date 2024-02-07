@@ -8,6 +8,9 @@ export default class Project {
   getTasks() {
     return this.tasks;
   }
+  getTask(taskName) {
+    return this.tasks.find((task) => task.name === taskName);
+  }
   addTask(task) {
     this.tasks.push(task);
     const todoList = Storage.getAndRefreshTodoList();
@@ -16,7 +19,9 @@ export default class Project {
   }
 
   removeTask(task) {
+    console.log(this.tasks);
     this.tasks = this.tasks.filter((t) => t !== task);
+    console.log(this.tasks);
     const todoList = Storage.getAndRefreshTodoList();
     todoList.updateProject(this);
     Storage.saveTodoList(todoList);

@@ -73,6 +73,7 @@ sidebar {
 main {
   grid-row: 2 / 3;
   grid-column: 2 / 3;
+  padding: 20px;
 }
 footer {
   grid-row: 3 / 4;
@@ -93,24 +94,40 @@ h2 {
 #taskContainer {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+
   padding: 10px;
 }
 .task {
-  padding: 10px;
+  padding: 6px;
   display: flex;
   align-items: center;
   justify-content: start;
+  border-radius: 10px;
+  position: relative;
 }
-.task:not(:last-child) {
-  border-bottom: 1px solid #ccc;
-  /* margin-bottom: 10px; */
+.task:not(:last-child):after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-bottom: 1px solid var(--tertiary);
 }
 .task > .radioBox {
   margin-right: 10px;
 }
 .task > .taskName {
   flex-grow: 1;
+}
+.task > .date {
+}
+.task > .deleteTask {
+  margin-left: 10px;
+  cursor: pointer;
+  color: transparent;
+}
+.task:hover .deleteTask {
+  color: #ccc;
 }
 .task-item > button {
   color: #444;
@@ -168,10 +185,12 @@ h2 {
 .project > i:nth-child(2) {
   margin-left: auto;
 }
-.project:hover {
+.project:hover,
+.task:hover {
   background-color: var(--secondary);
 }
-#addProject:hover {
+#addProject:hover,
+#addTask:hover {
   background-color: var(--secondary);
 }
 .hide {
