@@ -48,11 +48,13 @@ export default class Storage {
     const todoList = Storage.getAndRefreshTodoList();
     todoList.getProject(projectName).getTask(taskName).setDueDate(newDueDate);
     Storage.saveTodoList(todoList);
+    Storage.getAndRefreshTodoList();
+    Storage.saveTodoList(Storage.getAndRefreshTodoList());
   }
 
   static setIsDone(project, taskName, isDone) {
     const todoList = Storage.getAndRefreshTodoList();
-    console.warn(todoList);
+
     const task = todoList.getProject(project.name).getTask(taskName);
     task.setIsDone(isDone);
     if (project.name === "Done") {
@@ -63,7 +65,7 @@ export default class Storage {
       todoList.getProject(project.name).removeTask(task);
     }
     Storage.saveTodoList(todoList);
-    console.warn(Storage.getAndRefreshTodoList());
+
     Storage.getAndRefreshTodoList();
     Storage.saveTodoList(Storage.getAndRefreshTodoList());
   }

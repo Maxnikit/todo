@@ -16,7 +16,7 @@ export default class TodoList {
   getProject(name) {
     return this.projects.find((project) => project.name === name);
   }
-  contains(name) {
+  hasProject(name) {
     return this.projects.some((project) => project.name === name);
   }
 

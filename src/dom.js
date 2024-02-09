@@ -41,22 +41,17 @@ export default class Dom {
       document.querySelector("#addTask").classList.remove("hide");
     }
     Dom.showTasks(currentProject);
-    console.warn(currentProject);
+
     Dom.initCompleteTaskButtons();
     Dom.showDate();
     Dom.initDates();
     Dom.initCalendars();
     Dom.initDeleteTaskButtons();
     Dom.highlightCurrentProject();
-
-    console.log(`loaded tasks for ${currentProject.name}`);
   }
   static showTasks(project) {
-    console.log(`showing tasks for ${project.name}`);
-    console.log(project);
-    console.log(project.getTasks());
     const todoList = Storage.getAndRefreshTodoList();
-    console.warn(todoList);
+
     if (!todoList.getProject(project.name)) {
       return;
     }
@@ -65,7 +60,7 @@ export default class Dom {
     const taskContainer = document.getElementById("taskContainer");
 
     currentProject = todoList.getProject(project.name);
-    console.log(currentProject.getTasks());
+
     taskHeader.innerHTML = currentProject.name;
     taskContainer.innerHTML = ""; // Clear the container before adding tasks
     currentProject.getTasks().forEach((task) => {
@@ -174,7 +169,7 @@ export default class Dom {
         } else {
           Storage.setIsDone(currentProject, taskName);
         }
-        console.warn(`task ${taskName} completed in ${currentProject.name}`);
+
         Dom.loadTasks(currentProject);
       });
     });
@@ -183,15 +178,14 @@ export default class Dom {
     const tasksHTML = document.querySelectorAll(".task");
 
     Array.from(tasksHTML).forEach((taskHTML) => {
-      console.log(currentProject);
       const task = currentProject.getTask(taskHTML.children[1].textContent);
 
       if (task.dueDate === "No Date") {
-        taskHTML.children[4].classList.add("hide");
-        taskHTML.children[5].classList.remove("hide");
-      } else {
+        taskHTML.children[3].classList.add("hide");
         taskHTML.children[4].classList.remove("hide");
-        taskHTML.children[5].classList.add("hide");
+      } else {
+        taskHTML.children[3].classList.remove("hide");
+        taskHTML.children[4].classList.add("hide");
       }
     });
   }
@@ -199,8 +193,8 @@ export default class Dom {
     const dates = document.querySelectorAll(".date");
     Array.from(dates).forEach((date) => {
       date.addEventListener("click", () => {
-        date.parentElement.children[4].classList.add("hide");
-        date.parentElement.children[5].classList.remove("hide");
+        date.parentElement.children[3].classList.add("hide");
+        date.parentElement.children[4].classList.remove("hide");
       });
     });
   }
@@ -216,8 +210,10 @@ export default class Dom {
         const taskName = calendar.parentElement.children[1].textContent;
         const task = currentProject.getTask(taskName);
         task.dueDate = calendar.value;
-        Dom.loadTasks(currentProject);
+        console.warn(calendar.value);
+        console.warn(task.dueDate);
         Storage.setTaskDate(currentProject.name, taskName, task.dueDate);
+        Dom.loadTasks(currentProject);
       });
     });
   }
@@ -253,13 +249,16 @@ export default class Dom {
     confirmButton.addEventListener("click", () => {
       if (input.checkValidity()) {
         event.preventDefault();
-        if (!todoList.getProject(input.value)) {
+
+        if (!todoList.hasProject(input.value)) {
           const addProjectPopup = document.querySelector(".addProjectPopup");
           addProjectPopup.classList.toggle("hide");
           addProjectButton.classList.toggle("hide");
-          document.querySelector(".inputAddProject").value = "";
+
           const project = new Project(input.value);
+          document.querySelector(".inputAddProject").value = "";
           currentProject = project;
+
           Storage.addProject(project);
           Dom.loadTasks(project);
         } else {

@@ -210,13 +210,12 @@
               warned = true;
               var warn = process.emitWarning
                 ? process.emitWarning
-                : console.warn.bind(console);
-              warn(
-                "assert.fail() with more than one argument is deprecated. " +
-                  "Please use assert.strictEqual() instead or only pass a message.",
-                "DeprecationWarning",
-                "DEP0094"
-              );
+                : warn(
+                    "assert.fail() with more than one argument is deprecated. " +
+                      "Please use assert.strictEqual() instead or only pass a message.",
+                    "DeprecationWarning",
+                    "DEP0094"
+                  );
             }
             if (argsLen === 2) operator = "!=";
           }
@@ -2939,9 +2938,7 @@
 
         function warn() {}
 
-        function error() {
-          console.warn.apply(console, arguments);
-        }
+        function error() {}
 
         function time(label) {
           times[label] = now();
