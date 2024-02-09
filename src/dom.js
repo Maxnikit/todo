@@ -4,7 +4,8 @@ import Task from "./task.js";
 import Project from "./project.js";
 import TodoList from "./todoList.js";
 import Storage from "./storage.js";
-import Date from "./date.js";
+import DateCustom from "./date.js";
+import { format, compareAsc } from "date-fns";
 // import { validate } from "webpack";
 let currentProject = Storage.getAndRefreshTodoList().getProjects()[0];
 export default class Dom {
@@ -34,6 +35,7 @@ export default class Dom {
   static loadTasks(currentProject) {
     Dom.showTasks(currentProject);
     Dom.showDate();
+    Dom.initDates();
     Dom.initCalendars();
     Dom.initDeleteTaskButtons();
     Dom.highlightCurrentProject();
@@ -68,12 +70,13 @@ export default class Dom {
         timeRemaining.textContent = "";
         calendar.value = "";
       } else {
-        timeRemaining.textContent = Date.getTimeRemaining(task.dueDate);
+        timeRemaining.textContent = DateCustom.getTimeRemaining(task.dueDate);
         calendar.value = task.dueDate;
       }
 
       date.textContent = task.dueDate;
       calendar.type = "date";
+      calendar.min = new Date();
       radioBox.classList.add("radioBox");
       taskName.classList.add("taskName");
       timeRemaining.classList.add("timeRemaining");
@@ -159,12 +162,24 @@ export default class Dom {
       }
     });
   }
-
+  static initDates() {
+    const dates = document.querySelectorAll(".date");
+    Array.from(dates).forEach((date) => {
+      date.addEventListener("click", () => {
+        date.parentElement.children[3].classList.add("hide");
+        date.parentElement.children[4].classList.remove("hide");
+      });
+    });
+  }
   static initCalendars() {
     const calendars = document.querySelectorAll(".calendar");
     Array.from(calendars).forEach((calendar) => {
       calendar.addEventListener("change", () => {
-        console.log("change occured!");
+        if (compareAsc(calendar.value, calendar.min) !== 1) {
+          alert("Please enter a valid date.");
+          return;
+        }
+
         const taskName = calendar.parentElement.children[1].textContent;
         const task = currentProject.getTask(taskName);
         task.dueDate = calendar.value;
