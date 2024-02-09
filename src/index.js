@@ -12,3 +12,5 @@ import dateTest from "./date.js";
 Storage.getAndRefreshTodoList();
 
 Dom.loadPage();
+
+const todoList = Storage.getAndRefreshTodoList();

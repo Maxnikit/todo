@@ -14,8 +14,6 @@ export default class Dom {
     Dom.initAddProjectButton();
     Dom.initAddTaskButton();
     Dom.loadTasks(currentProject);
-
-    console.log("loadPage complete!");
   }
   static loadProjects() {
     const userProjects = document.getElementById("projectList");
@@ -33,16 +31,32 @@ export default class Dom {
     Dom.highlightCurrentProject();
   }
   static loadTasks(currentProject) {
+    if (
+      currentProject.name === "Today" ||
+      currentProject.name === "Upcoming" ||
+      currentProject.name === "Done"
+    ) {
+      document.querySelector("#addTask").classList.add("hide");
+    } else {
+      document.querySelector("#addTask").classList.remove("hide");
+    }
     Dom.showTasks(currentProject);
+    console.warn(currentProject);
+    Dom.initCompleteTaskButtons();
     Dom.showDate();
     Dom.initDates();
     Dom.initCalendars();
     Dom.initDeleteTaskButtons();
     Dom.highlightCurrentProject();
-    console.log("Tasks loaded!");
+
+    console.log(`loaded tasks for ${currentProject.name}`);
   }
   static showTasks(project) {
+    console.log(`showing tasks for ${project.name}`);
+    console.log(project);
+    console.log(project.getTasks());
     const todoList = Storage.getAndRefreshTodoList();
+    console.warn(todoList);
     if (!todoList.getProject(project.name)) {
       return;
     }
@@ -50,22 +64,22 @@ export default class Dom {
     const taskHeader = document.getElementById("taskHeader");
     const taskContainer = document.getElementById("taskContainer");
 
-    currentProject = project;
-
+    currentProject = todoList.getProject(project.name);
+    console.log(currentProject.getTasks());
     taskHeader.innerHTML = currentProject.name;
     taskContainer.innerHTML = ""; // Clear the container before adding tasks
-    project.getTasks().forEach((task) => {
+    currentProject.getTasks().forEach((task) => {
       const taskElement = document.createElement("div");
       taskElement.className = "task";
 
-      const radioBox = document.createElement("input");
+      const checkBox = document.createElement("i");
       const taskName = document.createElement("p");
       const timeRemaining = document.createElement("p");
       const date = document.createElement("p");
       const calendar = document.createElement("input");
-      radioBox.type = "radio";
+
       taskName.textContent = task.name;
-      console.log(task.dueDate);
+
       if (task.dueDate === "No Date") {
         timeRemaining.textContent = "";
         calendar.value = "";
@@ -73,17 +87,17 @@ export default class Dom {
         timeRemaining.textContent = DateCustom.getTimeRemaining(task.dueDate);
         calendar.value = task.dueDate;
       }
-
       date.textContent = task.dueDate;
       calendar.type = "date";
       calendar.min = new Date();
-      radioBox.classList.add("radioBox");
+      checkBox.classList.add("checkBox");
+      checkBox.classList.add("fa", "fa-check");
       taskName.classList.add("taskName");
       timeRemaining.classList.add("timeRemaining");
       date.classList.add("date");
       calendar.classList.add("calendar");
 
-      taskElement.appendChild(radioBox);
+      taskElement.appendChild(checkBox);
       taskElement.appendChild(taskName);
       taskElement.appendChild(timeRemaining);
       taskElement.appendChild(date);
@@ -146,19 +160,38 @@ export default class Dom {
       });
     });
   }
+
+  static initCompleteTaskButtons() {
+    const completeTaskButtons = document.getElementsByClassName("checkBox");
+    Array.from(completeTaskButtons).forEach((button) => {
+      button.addEventListener("click", () => {
+        const taskName = button.parentElement.children[1].textContent;
+        const task = currentProject.getTask(taskName);
+        if (
+          currentProject === Storage.getAndRefreshTodoList().getProject("Done")
+        ) {
+          Storage.setIsDone(currentProject, taskName);
+        } else {
+          Storage.setIsDone(currentProject, taskName);
+        }
+        console.warn(`task ${taskName} completed in ${currentProject.name}`);
+        Dom.loadTasks(currentProject);
+      });
+    });
+  }
   static showDate() {
-    console.log("showing date");
     const tasksHTML = document.querySelectorAll(".task");
 
     Array.from(tasksHTML).forEach((taskHTML) => {
+      console.log(currentProject);
       const task = currentProject.getTask(taskHTML.children[1].textContent);
-      console.log(task.getTask());
+
       if (task.dueDate === "No Date") {
-        taskHTML.children[3].classList.add("hide");
-        taskHTML.children[4].classList.remove("hide");
-      } else {
-        taskHTML.children[3].classList.remove("hide");
         taskHTML.children[4].classList.add("hide");
+        taskHTML.children[5].classList.remove("hide");
+      } else {
+        taskHTML.children[4].classList.remove("hide");
+        taskHTML.children[5].classList.add("hide");
       }
     });
   }
@@ -166,8 +199,8 @@ export default class Dom {
     const dates = document.querySelectorAll(".date");
     Array.from(dates).forEach((date) => {
       date.addEventListener("click", () => {
-        date.parentElement.children[3].classList.add("hide");
-        date.parentElement.children[4].classList.remove("hide");
+        date.parentElement.children[4].classList.add("hide");
+        date.parentElement.children[5].classList.remove("hide");
       });
     });
   }
@@ -268,12 +301,9 @@ export default class Dom {
   }
 
   static highlightCurrentProject() {
-    console.log(`highlighting ${currentProject.name}`);
     const projectButtons = document.getElementsByClassName("project");
     Array.from(projectButtons).forEach((button) => {
-      console.log(button.textContent.trim());
       if (button.textContent.trim() === currentProject.name) {
-        console.log("add");
         button.classList.add("currentProject");
       } else {
         button.classList.remove("currentProject");

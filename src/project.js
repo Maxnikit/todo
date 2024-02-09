@@ -10,8 +10,13 @@ export default class Project {
   }
   getTask(taskName) {
     console.log(taskName);
-    console.log(this.tasks.find((task) => task.name === taskName));
-    return this.tasks.find((task) => task.name === taskName);
+    console.log(this.tasks);
+    const foundTask = this.tasks.find((task) => task.name === taskName);
+    if (!foundTask) {
+      throw new Error("Task not found");
+    }
+
+    return foundTask;
   }
   addTask(task) {
     this.tasks.push(task);
@@ -23,6 +28,7 @@ export default class Project {
     return this.tasks.some((task) => task.name === taskName);
   }
   removeTask(task) {
+    console.log(task);
     this.tasks = this.tasks.filter((t) => t !== task);
 
     const todoList = Storage.getAndRefreshTodoList();

@@ -14,7 +14,7 @@ export default class Task {
     this.isDone = false;
     this.timeRemaining = timeRemaining;
   }
-  toggleDone() {
+  setIsDone() {
     this.isDone = !this.isDone;
   }
 

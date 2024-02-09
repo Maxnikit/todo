@@ -14,8 +14,6 @@ export default class TodoList {
   }
 
   getProject(name) {
-    console.log(name);
-    console.log(this.projects.find((project) => project.name === name));
     return this.projects.find((project) => project.name === name);
   }
   contains(name) {

@@ -45,9 +45,26 @@ export default class Storage {
   }
 
   static setTaskDate(projectName, taskName, newDueDate) {
-    console.log("1");
     const todoList = Storage.getAndRefreshTodoList();
     todoList.getProject(projectName).getTask(taskName).setDueDate(newDueDate);
     Storage.saveTodoList(todoList);
+  }
+
+  static setIsDone(project, taskName, isDone) {
+    const todoList = Storage.getAndRefreshTodoList();
+    console.warn(todoList);
+    const task = todoList.getProject(project.name).getTask(taskName);
+    task.setIsDone(isDone);
+    if (project.name === "Done") {
+      todoList.getProject("Inbox").addTask(task);
+      todoList.getProject("Done").removeTask(task);
+    } else {
+      todoList.getProject("Done").addTask(task);
+      todoList.getProject(project.name).removeTask(task);
+    }
+    Storage.saveTodoList(todoList);
+    console.warn(Storage.getAndRefreshTodoList());
+    Storage.getAndRefreshTodoList();
+    Storage.saveTodoList(Storage.getAndRefreshTodoList());
   }
 }
