@@ -45,13 +45,36 @@ export default class Storage {
   }
 
   static setTaskDate(projectName, taskName, newDueDate) {
+    console.log(`setting date for ${projectName} ${taskName} to ${newDueDate}`);
     const todoList = Storage.getAndRefreshTodoList();
     todoList.getProject(projectName).getTask(taskName).setDueDate(newDueDate);
     Storage.saveTodoList(todoList);
     Storage.getAndRefreshTodoList();
     Storage.saveTodoList(Storage.getAndRefreshTodoList());
+    this.getUpcomingTasks();
+  }
+  static getUpcomingTasks() {
+    const todoList = Storage.getAndRefreshTodoList();
+    const allTasksWithDueDate = [];
+    const projects = todoList.getProjects();
+    projects.forEach((project) => {
+      project.getTasks().forEach((task) => {
+        if (task.dueDate && task.dueDate !== "No Date") {
+          allTasksWithDueDate.push(task);
+        }
+      });
+    });
+    console.log(allTasksWithDueDate);
+    this.fillUpcomingTasks(allTasksWithDueDate);
   }
 
+  static fillUpcomingTasks(tasksWithDate) {
+    tasksWithDate.forEach((task) => {
+      console.log("boop");
+      const upcoming = Storage.getAndRefreshTodoList().getProject("Upcoming");
+      upcoming.addTask(task);
+    });
+  }
   static setIsDone(project, taskName, isDone) {
     const todoList = Storage.getAndRefreshTodoList();
 

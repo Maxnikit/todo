@@ -40,8 +40,8 @@ export default class Dom {
     } else {
       document.querySelector("#addTask").classList.remove("hide");
     }
+    Storage.getUpcomingTasks();
     Dom.showTasks(currentProject);
-
     Dom.initCompleteTaskButtons();
     Dom.showDate();
     Dom.initDates();
@@ -210,8 +210,7 @@ export default class Dom {
         const taskName = calendar.parentElement.children[1].textContent;
         const task = currentProject.getTask(taskName);
         task.dueDate = calendar.value;
-        console.warn(calendar.value);
-        console.warn(task.dueDate);
+
         Storage.setTaskDate(currentProject.name, taskName, task.dueDate);
         Dom.loadTasks(currentProject);
       });
@@ -229,7 +228,7 @@ export default class Dom {
       button.addEventListener("click", () => {
         const projectName = button.textContent.trim();
         const project = todoList.getProject(projectName);
-
+        console.warn(project.getTasks());
         Dom.loadTasks(project);
       });
     });
