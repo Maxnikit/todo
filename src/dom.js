@@ -229,7 +229,7 @@ export default class Dom {
       const inputValue = document.querySelector(".inputAddProject").value;
 
       if (inputValue) {
-        document.querySelector("inputAddProject").value = "";
+        document.querySelector(".inputAddProject").value = "";
       }
     });
   }
