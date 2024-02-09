@@ -14,6 +14,8 @@ export default class TodoList {
   }
 
   getProject(name) {
+    console.log(name);
+    console.log(this.projects.find((project) => project.name === name));
     return this.projects.find((project) => project.name === name);
   }
   contains(name) {
@@ -21,10 +23,6 @@ export default class TodoList {
   }
 
   addProject(newProject) {
-    if (this.contains(newProject.name)) {
-      alert(`A project with the name ${newProject.name} already exists.`);
-      return;
-    }
     this.projects.push(newProject);
   }
 
@@ -41,7 +39,6 @@ export default class TodoList {
   setProjects(projects) {
     this.projects = projects;
   }
-
   updateProject(updatedProject) {
     const index = this.projects.findIndex(
       (project) => project.name === updatedProject.name

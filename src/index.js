@@ -12,8 +12,3 @@ import dateTest from "./date.js";
 Storage.getAndRefreshTodoList();
 
 Dom.loadPage();
-const Inbox = Storage.getAndRefreshTodoList().getProject("Inbox");
-const Upcoming = Storage.getAndRefreshTodoList().getProject("Upcoming");
-
-const testDates = document.querySelectorAll(".calendar");
-console.log(testDates);

@@ -43,4 +43,11 @@ export default class Storage {
   static clearStorage() {
     localStorage.clear();
   }
+
+  static setTaskDate(projectName, taskName, newDueDate) {
+    console.log("1");
+    const todoList = Storage.getAndRefreshTodoList();
+    todoList.getProject(projectName).getTask(taskName).setDueDate(newDueDate);
+    Storage.saveTodoList(todoList);
+  }
 }

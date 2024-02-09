@@ -1,9 +1,10 @@
 import { formatDistance, subDays } from "date-fns";
 
-export default class Date {
-  static format(date) {
-    return formatDistance(subDays(new Date(), date), new Date(), {
-      addSuffix: true,
-    });
+export default class DateCustom {
+  static getTimeRemaining(date) {
+    console.log(date);
+    const currentDate = new Date();
+    console.log(currentDate);
+    return formatDistance(currentDate, date);
   }
 }

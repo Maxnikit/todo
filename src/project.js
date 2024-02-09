@@ -9,6 +9,8 @@ export default class Project {
     return this.tasks;
   }
   getTask(taskName) {
+    console.log(taskName);
+    console.log(this.tasks.find((task) => task.name === taskName));
     return this.tasks.find((task) => task.name === taskName);
   }
   addTask(task) {
@@ -17,16 +19,26 @@ export default class Project {
     todoList.updateProject(this);
     Storage.saveTodoList(todoList);
   }
-
+  hasTask(taskName) {
+    return this.tasks.some((task) => task.name === taskName);
+  }
   removeTask(task) {
-    console.log(this.tasks);
     this.tasks = this.tasks.filter((t) => t !== task);
-    console.log(this.tasks);
+
     const todoList = Storage.getAndRefreshTodoList();
     todoList.updateProject(this);
     Storage.saveTodoList(todoList);
   }
   setTasks(tasks) {
     this.tasks = tasks;
+  }
+  updateTask(updatedTask) {
+    const index = this.tasks.findIndex(
+      (task) => task.name === updatedTask.name
+    );
+
+    if (index !== -1) {
+      this.tasks[index] = updatedTask;
+    }
   }
 }

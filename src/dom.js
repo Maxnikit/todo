@@ -4,6 +4,7 @@ import Task from "./task.js";
 import Project from "./project.js";
 import TodoList from "./todoList.js";
 import Storage from "./storage.js";
+import Date from "./date.js";
 // import { validate } from "webpack";
 let currentProject = Storage.getAndRefreshTodoList().getProjects()[0];
 export default class Dom {
@@ -11,7 +12,7 @@ export default class Dom {
     Dom.loadProjects();
     Dom.initAddProjectButton();
     Dom.initAddTaskButton();
-    this.showTasks(currentProject);
+    Dom.loadTasks(currentProject);
 
     console.log("loadPage complete!");
   }
@@ -28,8 +29,16 @@ export default class Dom {
 
     Dom.initSelectProjectButtons();
     Dom.initDeleteProjectButtons();
+    Dom.highlightCurrentProject();
   }
-
+  static loadTasks(currentProject) {
+    Dom.showTasks(currentProject);
+    Dom.showDate();
+    Dom.initCalendars();
+    Dom.initDeleteTaskButtons();
+    Dom.highlightCurrentProject();
+    console.log("Tasks loaded!");
+  }
   static showTasks(project) {
     const todoList = Storage.getAndRefreshTodoList();
     if (!todoList.getProject(project.name)) {
@@ -40,7 +49,7 @@ export default class Dom {
     const taskContainer = document.getElementById("taskContainer");
 
     currentProject = project;
-    Dom.highlightCurrentProject();
+
     taskHeader.innerHTML = currentProject.name;
     taskContainer.innerHTML = ""; // Clear the container before adding tasks
     project.getTasks().forEach((task) => {
@@ -49,28 +58,37 @@ export default class Dom {
 
       const radioBox = document.createElement("input");
       const taskName = document.createElement("p");
+      const timeRemaining = document.createElement("p");
       const date = document.createElement("p");
       const calendar = document.createElement("input");
       radioBox.type = "radio";
       taskName.textContent = task.name;
+      console.log(task.dueDate);
+      if (task.dueDate === "No Date") {
+        timeRemaining.textContent = "";
+        calendar.value = "";
+      } else {
+        timeRemaining.textContent = Date.getTimeRemaining(task.dueDate);
+        calendar.value = task.dueDate;
+      }
+
       date.textContent = task.dueDate;
       calendar.type = "date";
-
       radioBox.classList.add("radioBox");
       taskName.classList.add("taskName");
+      timeRemaining.classList.add("timeRemaining");
       date.classList.add("date");
       calendar.classList.add("calendar");
 
       taskElement.appendChild(radioBox);
       taskElement.appendChild(taskName);
+      taskElement.appendChild(timeRemaining);
       taskElement.appendChild(date);
       taskElement.appendChild(calendar);
 
       taskContainer.appendChild(taskElement);
       taskElement.innerHTML += `<i class="fa fa-times deleteTask"></i>`;
     });
-    Dom.initSelectDate();
-    Dom.initDeleteTaskButtons();
   }
 
   static initAddTaskButton() {
@@ -87,26 +105,29 @@ export default class Dom {
     confirmButton.addEventListener("click", () => {
       if (input.checkValidity()) {
         event.preventDefault();
-        const addTaskPopup = document.querySelector(".addTaskPopup");
-        addTaskPopup.classList.toggle("hide");
-        addTaskButton.classList.toggle("hide");
         const taskName = document.querySelector(".inputAddTask").value;
-
-        document.querySelector(".inputAddTask").value = "";
-        const task = new Task(taskName);
-        currentProject.addTask(task);
+        if (!currentProject.hasTask(taskName)) {
+          const addTaskPopup = document.querySelector(".addTaskPopup");
+          addTaskPopup.classList.toggle("hide");
+          addTaskButton.classList.toggle("hide");
+          document.querySelector(".inputAddTask").value = "";
+          const task = new Task(taskName);
+          currentProject.addTask(task);
+          Dom.loadTasks(currentProject);
+        } else {
+          alert(`A task with the name ${taskName} already exists.`);
+          // Task with this name already exists, prohibit it
+          // Add code to display error message or handle the situation
+        }
       }
-
-      Dom.showTasks(currentProject);
     });
     cancelButton.addEventListener("click", () => {
       const addTaskPopup = document.querySelector(".addTaskPopup");
       addTaskPopup.classList.toggle("hide");
       addTaskButton.classList.toggle("hide");
       const inputValue = document.querySelector(".inputAddTask").value;
-
       if (inputValue) {
-        document.querySelector("inputAddTask").value = "";
+        document.querySelector(".inputAddTask").value = "";
       }
     });
   }
@@ -116,23 +137,39 @@ export default class Dom {
       button.addEventListener("click", () => {
         const taskName = button.parentElement.children[1]?.textContent;
         const task = currentProject.getTask(taskName);
-        console.log(taskName);
 
-        console.log("boop");
         currentProject.removeTask(task);
-        Dom.showTasks(currentProject);
+        Dom.loadTasks(currentProject);
       });
     });
   }
-  static initSelectDate() {
-    const calendars = document.getElementsByClassName("calendar");
+  static showDate() {
+    console.log("showing date");
+    const tasksHTML = document.querySelectorAll(".task");
+
+    Array.from(tasksHTML).forEach((taskHTML) => {
+      const task = currentProject.getTask(taskHTML.children[1].textContent);
+      console.log(task.getTask());
+      if (task.dueDate === "No Date") {
+        taskHTML.children[3].classList.add("hide");
+        taskHTML.children[4].classList.remove("hide");
+      } else {
+        taskHTML.children[3].classList.remove("hide");
+        taskHTML.children[4].classList.add("hide");
+      }
+    });
+  }
+
+  static initCalendars() {
+    const calendars = document.querySelectorAll(".calendar");
     Array.from(calendars).forEach((calendar) => {
       calendar.addEventListener("change", () => {
-        const selectedDate = calendar.value;
+        console.log("change occured!");
         const taskName = calendar.parentElement.children[1].textContent;
         const task = currentProject.getTask(taskName);
-        task.setDueDate(selectedDate);
-        Dom.showTasks(currentProject);
+        task.dueDate = calendar.value;
+        Dom.loadTasks(currentProject);
+        Storage.setTaskDate(currentProject.name, taskName, task.dueDate);
       });
     });
   }
@@ -148,7 +185,8 @@ export default class Dom {
       button.addEventListener("click", () => {
         const projectName = button.textContent.trim();
         const project = todoList.getProject(projectName);
-        this.showTasks(project);
+
+        Dom.loadTasks(project);
       });
     });
   }
@@ -167,13 +205,18 @@ export default class Dom {
     confirmButton.addEventListener("click", () => {
       if (input.checkValidity()) {
         event.preventDefault();
-        const addProjectPopup = document.querySelector(".addProjectPopup");
-        addProjectPopup.classList.toggle("hide");
-        addProjectButton.classList.toggle("hide");
-        const projectName = document.querySelector(".inputAddProject").value;
-        document.querySelector(".inputAddProject").value = "";
-        const project = new Project(projectName);
-        Storage.addProject(project);
+        if (!todoList.getProject(input.value)) {
+          const addProjectPopup = document.querySelector(".addProjectPopup");
+          addProjectPopup.classList.toggle("hide");
+          addProjectButton.classList.toggle("hide");
+          document.querySelector(".inputAddProject").value = "";
+          const project = new Project(input.value);
+          currentProject = project;
+          Storage.addProject(project);
+          Dom.loadTasks(project);
+        } else {
+          alert(`A project with the name ${input.value} already exists.`);
+        }
       }
 
       Dom.loadProjects();
@@ -193,27 +236,29 @@ export default class Dom {
   static initDeleteProjectButtons() {
     const deleteProjectButtons =
       document.getElementsByClassName("deleteProject");
-    console.log(deleteProjectButtons);
+
     Array.from(deleteProjectButtons).forEach((button) => {
       button.addEventListener("click", () => {
         const projectName = button.parentElement.textContent.trim();
         const project = Storage.getAndRefreshTodoList().getProject(projectName);
         Storage.deleteProject(project);
         button.parentElement.remove();
-        console.log(project);
-        console.log(currentProject);
+
         if (project.name === currentProject.name) {
           currentProject = Storage.getAndRefreshTodoList().getProjects()[0];
-          this.showTasks(currentProject);
+          this.loadTasks(currentProject);
         }
       });
     });
   }
 
   static highlightCurrentProject() {
+    console.log(`highlighting ${currentProject.name}`);
     const projectButtons = document.getElementsByClassName("project");
     Array.from(projectButtons).forEach((button) => {
+      console.log(button.textContent.trim());
       if (button.textContent.trim() === currentProject.name) {
+        console.log("add");
         button.classList.add("currentProject");
       } else {
         button.classList.remove("currentProject");

@@ -3,13 +3,16 @@ export default class Task {
     name,
     description = "No description",
     dueDate = "No Date",
-    priority = "No priority"
+    priority = "No priority",
+    timeRemaining = "No time remaining",
+    isDone
   ) {
     this.name = name;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
     this.isDone = false;
+    this.timeRemaining = timeRemaining;
   }
   toggleDone() {
     this.isDone = !this.isDone;
